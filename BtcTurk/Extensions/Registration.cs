@@ -1,4 +1,6 @@
 ﻿using BtcTurk.Context;
+using BtcTurk.Services;
+using BtcTurk.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 
@@ -18,6 +20,7 @@ namespace BtcTurk.Extensions
                     opt.EnableRetryOnFailure();
                 });
             });
+            services.AddScoped<IInstructionService, InstructionService>();
             return services;
 
             //di burada eklensin.

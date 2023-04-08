@@ -9,6 +9,5 @@
         public bool SendSmsNotification { get; set; }
         public bool SendMailNotification { get; set; }
         public bool SendPushNotification { get; set; }
-        public bool IsActive { get; set; }
     }
 }
