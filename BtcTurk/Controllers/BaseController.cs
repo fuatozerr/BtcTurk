@@ -13,5 +13,13 @@ namespace BtcTurk.Controllers
         {
             _instructionService = instructionService;
         }
+        public IActionResult CreateActionResultInstance<T>(BtcTurk.Dto.Response<T> response)
+        {
+            var obj = new ObjectResult(response)
+            {
+                StatusCode = (int)response.StatusCode
+            };
+            return obj;
+        }
     }
 }

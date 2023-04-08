@@ -1,7 +1,6 @@
 ﻿using BtcTurk.Dto;
 using BtcTurk.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using System.Net;
 
 namespace BtcTurk.Controllers
 {
@@ -17,6 +16,7 @@ namespace BtcTurk.Controllers
         [HttpGet]
         public async Task<IActionResult> Get()
         {
+
             var instructions = _instructionService.GetInstructions();
             return Ok(instructions);
 
@@ -25,12 +25,8 @@ namespace BtcTurk.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(InstructionDto request)
         {
-            var result = _instructionService.Create(request);
-            if (result.StatusCode == HttpStatusCode.Conflict)
-            {
-                return Conflict(result); // HTTP 409 Conflict durum kodunu ve nesneyi döndürür
-            }
-            return NoContent();
+            var result = await _instructionService.Create(request);
+            return CreateActionResultInstance(result);
         }
     }
 }

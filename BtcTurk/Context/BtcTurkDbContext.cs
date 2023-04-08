@@ -13,12 +13,29 @@ namespace BtcTurk.Context
         {
 
         }
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            if (!optionsBuilder.IsConfigured)
+            {
+                var connStr = "Data Source=localhost;Initial Catalog=BtcTurk;Persist Security Info=True;Trust Server Certificate=true;User ID=sa;Password=Fuatko123";
+                optionsBuilder.UseSqlServer(connStr, opt =>
+                {
+                    opt.EnableRetryOnFailure();
+                });
+            }
+            base.OnConfiguring(optionsBuilder);
+        }
 
         public DbSet<Instruction> Instructions { get; set; }
         public override int SaveChanges()
         {
             OnBeforeSave();
             return base.SaveChanges();
+        }
+        public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+        {
+            OnBeforeSave();
+            return base.SaveChangesAsync(cancellationToken);
         }
         private void OnBeforeSave()
         {
