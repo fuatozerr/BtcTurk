@@ -1,13 +1,12 @@
 ﻿using BtcTurk.Dto;
-using BtcTurk.Models;
 
 namespace BtcTurk.Services.Interfaces
 {
     public interface IInstructionService
     {
-        public Task<Response<bool>> Create(InstructionDto request);
-        public List<Instruction> GetInstructions();
-        Task<Response<bool>> CancelInstructions(int userId, CancelInstructionDto request);
+        Task<Response<bool>> Create(InstructionDto request);
+        Task<Response<InstructionDto>> GetInstructionById(int userId, int instructionId);
+        Task<Response<bool>> CancelInstruction(int userId, CancelInstructionDto request);
 
     }
 }

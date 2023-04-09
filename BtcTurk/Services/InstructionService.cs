@@ -32,10 +32,25 @@ namespace BtcTurk.Services
             return Response<bool>.Success(HttpStatusCode.NoContent);
         }
 
-        public List<Instruction> GetInstructions()
+        public async Task<Response<InstructionDto>> GetInstructionById(int userId, int instructionId)
         {
-            var result = _btcTurkDbContext.Instructions.ToList();
-            return result;
+            try
+            {
+                var instruction = await _btcTurkDbContext.Instructions.FirstOrDefaultAsync(x => x.Id == instructionId && x.UserId == userId);
+                if (instruction == null)
+                {
+                    var model = Response<InstructionDto>.Fail("Talimat bulunamadı", HttpStatusCode.NotFound);
+                    return model;
+                }
+                var result = _mapper.Map<InstructionDto>(instruction);
+                return Response<InstructionDto>.Success(result, HttpStatusCode.OK);
+            }
+            catch (Exception exx)
+            {
+
+                throw;
+            }
+
         }
 
         //public async Task<Response<bool>> CancelInstructions(CancelInstructionDto request)
@@ -56,7 +71,7 @@ namespace BtcTurk.Services
         //    await _btcTurkDbContext.SaveChangesAsync();
         //    return Response<bool>.Success(HttpStatusCode.NoContent);
         //}
-        public async Task<Response<bool>> CancelInstructions(int userId, CancelInstructionDto request)
+        public async Task<Response<bool>> CancelInstruction(int userId, CancelInstructionDto request)
         {
             var instruction = await _btcTurkDbContext.Instructions.FirstOrDefaultAsync(x => x.Id == request.InstructionId);
             if (instruction is null)

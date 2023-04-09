@@ -13,11 +13,12 @@ namespace BtcTurk.Controllers
         public InstructionController(IInstructionService instructionService) : base(instructionService)
         {
         }
-        [HttpGet]
-        public async Task<IActionResult> Get()
+
+        [HttpGet("{userId}/{instructionId}")]
+        public async Task<IActionResult> Get(int userId, int instructionId)
         {
 
-            var instructions = _instructionService.GetInstructions();
+            var instructions = await _instructionService.GetInstructionById(userId, instructionId);
             return Ok(instructions);
 
         }
@@ -38,7 +39,7 @@ namespace BtcTurk.Controllers
         [HttpPut("{userId}")]
         public async Task<IActionResult> Put(int userId, CancelInstructionDto request)
         {
-            var result = await _instructionService.CancelInstructions(userId, request);
+            var result = await _instructionService.CancelInstruction(userId, request);
             return CreateActionResultInstance(result);
         }
     }
