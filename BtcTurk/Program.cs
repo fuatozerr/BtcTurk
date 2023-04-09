@@ -1,6 +1,7 @@
 ﻿using BtcTurk.Extensions;
 using BtcTurk.Middleware;
 using Microsoft.OpenApi.Models;
+using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,6 +21,9 @@ builder.Services.AddSwaggerGen(options =>
             Email = "fuatozerr23@gmail.com"
         }
     });
+    var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+    var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+    options.IncludeXmlComments(xmlPath);
 });
 
 builder.Services.AddInfrasturctureRegistration(builder.Configuration);
