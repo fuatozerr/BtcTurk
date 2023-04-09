@@ -4,6 +4,7 @@ using BtcTurk.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BtcTurk.Migrations
 {
     [DbContext(typeof(BtcTurkDbContext))]
-    partial class BtcTurkDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230409143413_added-log-channel-name")]
+    partial class addedlogchannelname
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -76,8 +79,8 @@ namespace BtcTurk.Migrations
                     b.Property<int>("InstructionId")
                         .HasColumnType("int");
 
-                    b.Property<string>("LogJson")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("LogJson")
+                        .HasColumnType("int");
 
                     b.Property<int>("LogLevel")
                         .HasColumnType("int");

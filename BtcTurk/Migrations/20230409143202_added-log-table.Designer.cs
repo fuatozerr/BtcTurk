@@ -4,6 +4,7 @@ using BtcTurk.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BtcTurk.Migrations
 {
     [DbContext(typeof(BtcTurkDbContext))]
-    partial class BtcTurkDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230409143202_added-log-table")]
+    partial class addedlogtable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -67,17 +70,14 @@ namespace BtcTurk.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("ChannelName")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<DateTime>("CreateDate")
                         .HasColumnType("datetime2");
 
                     b.Property<int>("InstructionId")
                         .HasColumnType("int");
 
-                    b.Property<string>("LogJson")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("LogJson")
+                        .HasColumnType("int");
 
                     b.Property<int>("LogLevel")
                         .HasColumnType("int");

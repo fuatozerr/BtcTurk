@@ -27,6 +27,8 @@ namespace BtcTurk.Context
         }
 
         public DbSet<Instruction> Instructions { get; set; }
+
+        public DbSet<NotificationLog> NotificationLogs { get; set; }
         public override int SaveChanges()
         {
             OnBeforeSave();
@@ -49,7 +51,7 @@ namespace BtcTurk.Context
             foreach (var item in entities)
             {
                 item.CreateDate = DateTime.Now;
-                item.IsActive = true;  //yeni bir kayıt eklenirse işlemi aktif olarak olmalı
+                //  item.IsActive = true;  //yeni bir kayıt eklenirse işlemi aktif olarak olmalı
             }
         }
     }

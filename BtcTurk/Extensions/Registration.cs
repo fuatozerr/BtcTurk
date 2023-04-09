@@ -16,32 +16,9 @@ namespace BtcTurk.Extensions
     {
         public static IServiceCollection AddInfrasturctureRegistration(this IServiceCollection services, IConfiguration configuration)
         {
-
-            //x.UsingRabbitMq((context, config) =>
-            //{
-            //    config.Host($"amqp://guest:guest@http://localhost:8080");
-
-            //    //config.Host(new Uri("localhost:8080"), h =>
-            //    //{
-            //    //    h.Username("guest");
-            //    //    h.Password("guest");
-            //    //});
-
-            //    config.ReceiveEndpoint("sms-notification-queue", e =>
-            //    {
-            //        e.ConfigureConsumer<SmsNotificationConsumer>(context);
-            //    });
-            //    x.AddConsumer<SmsNotificationConsumer>();
-
-            //    config.AutoStart = true;
-
-            //});
-
             services.AddMassTransit(x =>
             {
                 x.AddConsumer<SmsNotificationConsumer>();
-
-                // add the bus to the container
                 x.UsingRabbitMq((context, cfg) =>
                 {
                     cfg.Host("localhost", "/", h =>
@@ -51,18 +28,14 @@ namespace BtcTurk.Extensions
                     });
                     cfg.ReceiveEndpoint("SmsNotificationConsumer", ec =>
                     {
-                        // Configure a single consumer
                         ec.ConfigureConsumer<SmsNotificationConsumer>(context);
                     });
-
-                    // or, configure the endpoints by convention
                     cfg.ConfigureEndpoints(context);
                 });
             });
 
             var assm = Assembly.GetExecutingAssembly();
             services.AddAutoMapper(assm);
-            //services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<InstructionValidator>());
             services.AddDbContext<BtcTurkDbContext>(conf =>
             {
                 var connStr = configuration["BtcTurkDbConnectionString"].ToString();
@@ -83,9 +56,12 @@ namespace BtcTurk.Extensions
                 options.SuppressModelStateInvalidFilter = true;
             });
             services.AddScoped<IInstructionService, InstructionService>();
+            services.AddScoped<INotificationService, NotificationService>();
+            services.AddScoped<ILoggingService, LoggingService>();
+
+
             return services;
 
-            //di burada eklensin.
         }
     }
 }
