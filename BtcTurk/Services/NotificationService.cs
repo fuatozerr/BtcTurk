@@ -60,16 +60,6 @@ namespace BtcTurk.Services
             _loggingService.Log(logLevel: LogLevel.Information, instruction, channelSms, true);
 
         }
-        public void SendMailNotification(int instructionId)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void SendPushNotification(int instructionId)
-        {
-            throw new NotImplementedException();
-        }
-
 
     }
 }

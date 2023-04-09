@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using BtcTurk.Constants;
 using BtcTurk.Context;
 using BtcTurk.Dto;
 using BtcTurk.Models;
@@ -27,7 +28,7 @@ namespace BtcTurk.Services
             var isActive = await _btcTurkDbContext.Instructions.AnyAsync(x => x.UserId == request.UserId && x.IsActive);
             if (isActive)
             {
-                var model = Dto.Response<bool>.Fail("Bir kullanıcıya ait sadece 1 tane aktif talimat olabilir", HttpStatusCode.Conflict);
+                var model = Dto.Response<bool>.Fail(ErrorResponseConstants.ActiveInstruction, HttpStatusCode.Conflict);
                 return model;
             }
             var executionStrategy = _btcTurkDbContext.Database.CreateExecutionStrategy();
@@ -46,7 +47,7 @@ namespace BtcTurk.Services
                     catch (Exception ex)
                     {
                         transaction.Rollback();
-                        return Dto.Response<bool>.Fail("Database tarafında problem oluştu.", HttpStatusCode.InternalServerError);
+                        return Dto.Response<bool>.Fail(ErrorResponseConstants.DatabaseError, HttpStatusCode.InternalServerError);
                     }
                 }
             });
@@ -58,7 +59,7 @@ namespace BtcTurk.Services
             var instruction = await _btcTurkDbContext.Instructions.FirstOrDefaultAsync(x => x.Id == instructionId && x.UserId == userId);
             if (instruction == null)
             {
-                var model = Dto.Response<InstructionDto>.Fail("Talimat bulunamadı", HttpStatusCode.NotFound);
+                var model = Dto.Response<InstructionDto>.Fail(ErrorResponseConstants.InstructionNotFound, HttpStatusCode.NotFound);
                 return model;
             }
             var result = _mapper.Map<InstructionDto>(instruction);
@@ -71,7 +72,7 @@ namespace BtcTurk.Services
             var instruction = await _btcTurkDbContext.Instructions.FirstOrDefaultAsync(x => x.Id == instructionId && x.UserId == userId);
             if (instruction == null)
             {
-                var model = Dto.Response<Dto.NotificationDto>.Fail("Talimat bulunamadı", HttpStatusCode.NotFound);
+                var model = Dto.Response<Dto.NotificationDto>.Fail(ErrorResponseConstants.InstructionNotFound, HttpStatusCode.NotFound);
                 return model;
             }
             var result = _mapper.Map<Dto.NotificationDto>(instruction);
@@ -83,12 +84,12 @@ namespace BtcTurk.Services
             var instruction = await _btcTurkDbContext.Instructions.FirstOrDefaultAsync(x => x.Id == request.InstructionId);
             if (instruction is null)
             {
-                var model = Dto.Response<bool>.Fail("Gönderilen Idye ait talimat bulunamamıştır", HttpStatusCode.NotFound);
+                var model = Dto.Response<bool>.Fail(ErrorResponseConstants.InstructionNotFoundById, HttpStatusCode.NotFound);
                 return model;
             }
             if (instruction.UserId != userId)
             {
-                var model = Dto.Response<bool>.Fail("Talimat bilgileriyle User bilgisi eşleşmiyor.", HttpStatusCode.NotFound);
+                var model = Dto.Response<bool>.Fail(ErrorResponseConstants.DontMatchUserAndInstruction, HttpStatusCode.NotFound);
                 return model;
             }
             _btcTurkDbContext.Instructions.Attach(instruction);

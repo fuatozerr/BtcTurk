@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using BtcTurk.Constants;
+using System.Net;
 using System.Text.Json;
 
 namespace BtcTurk.Middleware
@@ -27,7 +28,7 @@ namespace BtcTurk.Middleware
             if (!context.Response.HasStarted)
             {
                 context.Response.ContentType = "application/json";
-                var response = Dto.Response<bool>.Fail("Database tarafında problem oluştu.", HttpStatusCode.InternalServerError);
+                var response = Dto.Response<bool>.Fail(ErrorResponseConstants.DatabaseError, HttpStatusCode.InternalServerError);
                 var json = JsonSerializer.Serialize(response);
                 await context.Response.WriteAsync(json);
             }

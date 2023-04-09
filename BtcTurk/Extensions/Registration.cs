@@ -1,4 +1,5 @@
-﻿using BtcTurk.Context;
+﻿using BtcTurk.Constants;
+using BtcTurk.Context;
 using BtcTurk.Filters;
 using BtcTurk.Queue;
 using BtcTurk.Services;
@@ -21,12 +22,12 @@ namespace BtcTurk.Extensions
                 x.AddConsumer<SmsNotificationConsumer>();
                 x.UsingRabbitMq((context, cfg) =>
                 {
-                    cfg.Host("localhost", "/", h =>
+                    cfg.Host(RabbitMQConstants.Host, "/", h =>
                     {
-                        h.Username("admin");
-                        h.Password("123456");
+                        h.Username(RabbitMQConstants.UserName);
+                        h.Password(RabbitMQConstants.Password);
                     });
-                    cfg.ReceiveEndpoint("SmsNotificationConsumer", ec =>
+                    cfg.ReceiveEndpoint(RabbitMQConstants.SmsQueueName, ec =>
                     {
                         ec.ConfigureConsumer<SmsNotificationConsumer>(context);
                     });
