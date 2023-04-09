@@ -14,27 +14,26 @@ namespace BtcTurk.Controllers
         {
         }
 
-        [HttpGet("{userId}/{instructionId}")]
-        public async Task<IActionResult> Get(int userId, int instructionId)
+        [HttpGet("{userId}/{instructionId}/instruction")]   //3 nolu kullanıcının idsi 1 olan talimatını getir
+        public async Task<IActionResult> GetInstruction(int userId, int instructionId)
         {
+            var result = await _instructionService.GetInstructionById(userId, instructionId);
+            return CreateActionResultInstance(result);
+        }
 
-            var instructions = await _instructionService.GetInstructionById(userId, instructionId);
-            return Ok(instructions);
-
+        [HttpGet("{userId}/{instructionId}/notifications")]
+        public async Task<IActionResult> GetNotifications(int userId, int instructionId)
+        {
+            var result = await _instructionService.GetNotificationById(userId, instructionId);
+            return CreateActionResultInstance(result);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(InstructionDto request)
+        public async Task<IActionResult> Post(InstructionDto request)
         {
             var result = await _instructionService.Create(request);
             return CreateActionResultInstance(result);
         }
-        //[HttpPut]
-        //public async Task<IActionResult> Put(CancelInstructionDto request)
-        //{
-        //    var result = await _instructionService.CancelInstructions(request);
-        //    return CreateActionResultInstance(result);
-        //}
 
         [HttpPut("{userId}")]
         public async Task<IActionResult> Put(int userId, CancelInstructionDto request)
