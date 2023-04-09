@@ -1,4 +1,5 @@
 ﻿using BtcTurk.Extensions;
+using BtcTurk.Middleware;
 using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -22,14 +23,15 @@ builder.Services.AddSwaggerGen(options =>
 });
 
 builder.Services.AddInfrasturctureRegistration(builder.Configuration);
+
 var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+app.ErrorMiddleware();
 app.UseHttpsRedirection();
-
 app.UseAuthorization();
 
 app.MapControllers();
