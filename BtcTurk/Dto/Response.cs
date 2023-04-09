@@ -1,5 +1,4 @@
 ﻿using System.Net;
-using System.Text.Json.Serialization;
 
 namespace BtcTurk.Dto
 {
@@ -7,15 +6,11 @@ namespace BtcTurk.Dto
     {
         public T Data { get; private set; }
 
-        [JsonIgnore]
         public HttpStatusCode StatusCode { get; private set; }
-
-        [JsonIgnore]
         public bool IsSuccessful { get; private set; }
-
+        public string Message { get; set; }
         public List<string> Errors { get; set; }
 
-        // Static Factory Method
         public static Response<T> Success(T data, HttpStatusCode statusCode)
         {
             return new Response<T> { Data = data, StatusCode = statusCode, IsSuccessful = true };
@@ -26,14 +21,15 @@ namespace BtcTurk.Dto
             return new Response<T> { Data = default(T), StatusCode = statusCode, IsSuccessful = true };
         }
 
-        public static Response<T> Fail(List<string> errors, HttpStatusCode statusCode)
+        public static Response<T> Fail(List<string> errors, string message, HttpStatusCode statusCode)
 
         {
             return new Response<T>
             {
                 Errors = errors,
                 StatusCode = statusCode,
-                IsSuccessful = false
+                IsSuccessful = false,
+                Message = message
             };
         }
 

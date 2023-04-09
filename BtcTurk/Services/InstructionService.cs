@@ -37,5 +37,42 @@ namespace BtcTurk.Services
             var result = _btcTurkDbContext.Instructions.ToList();
             return result;
         }
+
+        //public async Task<Response<bool>> CancelInstructions(CancelInstructionDto request)
+        //{
+        //    var instruction = await _btcTurkDbContext.Instructions.FirstOrDefaultAsync(x => x.Id == request.InstructionId);
+        //    if (instruction is null)
+        //    {
+        //        var model = Response<bool>.Fail("Gönderilen Idye ait talimat bulunamamıştır", HttpStatusCode.NotFound);
+        //        return model;
+        //    }
+        //    if (instruction.UserId != request.UserId)
+        //    {
+        //        var model = Response<bool>.Fail("Talimat bilgileriyle User bilgisi eşleşmiyor.", HttpStatusCode.NotFound);
+        //        return model;
+        //    }
+        //    _btcTurkDbContext.Instructions.Attach(instruction);
+        //    instruction.IsActive = false;
+        //    await _btcTurkDbContext.SaveChangesAsync();
+        //    return Response<bool>.Success(HttpStatusCode.NoContent);
+        //}
+        public async Task<Response<bool>> CancelInstructions(int userId, CancelInstructionDto request)
+        {
+            var instruction = await _btcTurkDbContext.Instructions.FirstOrDefaultAsync(x => x.Id == request.InstructionId);
+            if (instruction is null)
+            {
+                var model = Response<bool>.Fail("Gönderilen Idye ait talimat bulunamamıştır", HttpStatusCode.NotFound);
+                return model;
+            }
+            if (instruction.UserId != userId)
+            {
+                var model = Response<bool>.Fail("Talimat bilgileriyle User bilgisi eşleşmiyor.", HttpStatusCode.NotFound);
+                return model;
+            }
+            _btcTurkDbContext.Instructions.Attach(instruction);
+            instruction.IsActive = false;
+            await _btcTurkDbContext.SaveChangesAsync();
+            return Response<bool>.Success(HttpStatusCode.NoContent);
+        }
     }
 }

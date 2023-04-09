@@ -28,5 +28,18 @@ namespace BtcTurk.Controllers
             var result = await _instructionService.Create(request);
             return CreateActionResultInstance(result);
         }
+        //[HttpPut]
+        //public async Task<IActionResult> Put(CancelInstructionDto request)
+        //{
+        //    var result = await _instructionService.CancelInstructions(request);
+        //    return CreateActionResultInstance(result);
+        //}
+
+        [HttpPut("{userId}")]
+        public async Task<IActionResult> Put(int userId, CancelInstructionDto request)
+        {
+            var result = await _instructionService.CancelInstructions(userId, request);
+            return CreateActionResultInstance(result);
+        }
     }
 }

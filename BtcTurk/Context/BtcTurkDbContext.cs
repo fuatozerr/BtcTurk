@@ -39,7 +39,7 @@ namespace BtcTurk.Context
         }
         private void OnBeforeSave()
         {
-            //update olmadıgı için sadece ekleme kısmına yazdım.
+            //talimat eklendiğinde tarih eklesin ve aktif olsun
             var addedEntities = ChangeTracker.Entries().Where(x => x.State == EntityState.Added)
                 .Select(y => (BaseEntity)y.Entity);
             PrepareAddedEntities(addedEntities);

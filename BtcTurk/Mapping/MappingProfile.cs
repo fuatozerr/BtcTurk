@@ -12,6 +12,8 @@ namespace BtcTurk.Mapping
             CreateMap<InstructionDto, Instruction>()
                         .ReverseMap();
 
+
+
         }
     }
 }

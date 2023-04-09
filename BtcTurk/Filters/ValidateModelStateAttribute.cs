@@ -1,4 +1,4 @@
-﻿using BtcTurk.Models.Response;
+﻿using BtcTurk.Dto;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 
@@ -15,12 +15,7 @@ namespace BtcTurk.Filters
                         .Select(v => v.ErrorMessage)
                         .ToList();
 
-                var responseObj = new BaseResponse
-                {
-                    Message = "Validation Error",
-                    StatusCode = System.Net.HttpStatusCode.BadRequest,
-                    Errors = errors
-                };
+                var responseObj = Response<bool>.Fail(errors, "Validation Error", System.Net.HttpStatusCode.BadRequest);
 
                 context.Result = new JsonResult(responseObj)
                 {
