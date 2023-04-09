@@ -57,7 +57,7 @@ namespace BtcTurk.Services
         public async Task<Dto.Response<InstructionDto>> GetInstructionById(int userId, int instructionId)
         {
             var instruction = await _btcTurkDbContext.Instructions.FirstOrDefaultAsync(x => x.Id == instructionId && x.UserId == userId);
-            if (instruction == null)
+            if (instruction is null)
             {
                 var model = Dto.Response<InstructionDto>.Fail(ErrorResponseConstants.InstructionNotFound, HttpStatusCode.NotFound);
                 return model;
@@ -70,7 +70,7 @@ namespace BtcTurk.Services
         public async Task<Dto.Response<Dto.NotificationDto>> GetNotificationById(int userId, int instructionId)
         {
             var instruction = await _btcTurkDbContext.Instructions.FirstOrDefaultAsync(x => x.Id == instructionId && x.UserId == userId);
-            if (instruction == null)
+            if (instruction is null)
             {
                 var model = Dto.Response<Dto.NotificationDto>.Fail(ErrorResponseConstants.InstructionNotFound, HttpStatusCode.NotFound);
                 return model;

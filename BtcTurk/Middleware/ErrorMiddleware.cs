@@ -34,11 +34,11 @@ namespace BtcTurk.Middleware
             }
         }
     }
-    public static class MyMiddlewareExtensions
-    {
-        public static IApplicationBuilder ErrorMiddleware(this IApplicationBuilder builder)
-        {
-            return builder.UseMiddleware<ErrorMiddleware>();
-        }
-    }
+    //public static class MyMiddlewareExtensions
+    //{
+    //    public static IApplicationBuilder ErrorMiddleware(this IApplicationBuilder builder)
+    //    {
+    //        return builder.UseMiddleware<ErrorMiddleware>();
+    //    }
+    //}
 }

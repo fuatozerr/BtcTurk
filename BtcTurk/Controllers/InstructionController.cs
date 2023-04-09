@@ -8,8 +8,6 @@ namespace BtcTurk.Controllers
     [ApiController]
     public class InstructionController : BaseController
     {
-        const int MinAmount = 100;
-        const int MaxAmount = 20000;
         public InstructionController(IInstructionService instructionService) : base(instructionService)
         {
         }

@@ -30,7 +30,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-app.ErrorMiddleware();
+app.UseMiddleware<ErrorMiddleware>();
 app.UseHttpsRedirection();
 app.UseAuthorization();
 
