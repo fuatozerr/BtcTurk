@@ -22,10 +22,11 @@ namespace BtcTurk.Extensions
                 x.AddConsumer<SmsNotificationConsumer>();
                 x.UsingRabbitMq((context, cfg) =>
                 {
-                    cfg.Host(RabbitMQConstants.Host, "/", h =>
+                    cfg.Host("rabbitmq", "/", h =>
                     {
                         h.Username(RabbitMQConstants.UserName);
                         h.Password(RabbitMQConstants.Password);
+
                     });
                     cfg.ReceiveEndpoint(RabbitMQConstants.SmsQueueName, ec =>
                     {
@@ -39,13 +40,12 @@ namespace BtcTurk.Extensions
             services.AddAutoMapper(assm);
             services.AddDbContext<BtcTurkDbContext>(conf =>
             {
-                var connStr = configuration["BtcTurkDbConnectionString"].ToString();
+                var connStr = $"Server=db;Database=BtcTurk;User=sa;Password=Fuatko123;MultipleActiveResultSets=true;Integrated Security=false;TrustServerCertificate=true";
                 conf.UseSqlServer(connStr, opt =>
                 {
                     opt.EnableRetryOnFailure();
                 });
             });
-
             services.AddMvc(options =>
             {
                 options.Filters.Add(typeof(ValidateModelStateAttribute));

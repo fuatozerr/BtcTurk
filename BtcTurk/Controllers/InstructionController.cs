@@ -25,6 +25,11 @@ namespace BtcTurk.Controllers
             return CreateActionResultInstance(result);
         }
 
+        [HttpGet]
+        public IActionResult Get()
+        {
+            return Ok("get");
+        }
         /// <summary>
         /// Kullanıcının talimatlarına ait bildirim kanalları listelenir
         /// </summary>
