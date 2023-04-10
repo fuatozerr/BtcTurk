@@ -40,7 +40,9 @@ namespace BtcTurk.Extensions
             services.AddAutoMapper(assm);
             services.AddDbContext<BtcTurkDbContext>(conf =>
             {
-                var connStr = $"Server=db;Database=BtcTurk;User=sa;Password=Fuatko123;MultipleActiveResultSets=true;Integrated Security=false;TrustServerCertificate=true";
+                var connStr = $"Server=db;Database=BtcTurk;User=sa;Password=Fuatko123;MultipleActiveResultSets=true;Integrated Security=false;TrustServerCertificate=true"; //dockerda calısınca bu stringi kullanıyorum 
+
+                // connstrLocal=$"Data Source=localhost;Initial Catalog=BtcTurk;Persist Security Info=True;Trust Server Certificate=true;User ID=sa;Password=Fuatko123";   localde çalıstıgım zaman bu stringi kullanıyorum
                 conf.UseSqlServer(connStr, opt =>
                 {
                     opt.EnableRetryOnFailure();
